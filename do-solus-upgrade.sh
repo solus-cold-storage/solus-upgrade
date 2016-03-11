@@ -9,4 +9,39 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 #
-exit 0
+
+function do_die()
+{
+    echo "Fatal: $*"
+    exit 1
+}
+
+function removeRepo()
+{
+    local repo="$*"
+
+    eopkg remove-repo "$repo" || do_die "Failed to remove repo: $repo"
+}
+
+function listRepos()
+{
+    echo /var/lib/eopkg/index/* | sed 's@/var/lib/eopkg/index/@@g'
+}
+
+function addRepo()
+{
+    local repo="$1"
+    local url="$2"
+
+    eopkg add-repo "$repo" "$url" || do_die "Failed to add repo: $repo"
+}
+
+# Remove all listed repos
+if [[ $(ls -A /var/lib/eopkg/index/) ]]; then
+    for repo in `listRepos` ; do
+        removeRepo $repo
+    done
+fi
+
+# Add the Shannon Solus repo
+addRepo Solus "https://packages.solus-project.com/shannon/eopkg-index.xml.xz"
