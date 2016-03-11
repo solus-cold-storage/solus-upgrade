@@ -47,6 +47,7 @@ function removePackage()
 {
     local pkg="$*"
 
+    echo "Ensuring ${pkg} is removed as it may cause problems during update"
     eopkg rm --ignore-safety --ignore-comar -y "$pkg"
 }
 
