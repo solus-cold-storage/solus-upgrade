@@ -103,3 +103,11 @@ checkDead comar
 
 # Now configure any pending, bobs your uncle, etc.
 eopkg configure-pending
+
+# configure GRUB.
+if [[ ! -e /sys/firmware/efi ]]; then
+    if [[ -e /boot/grub/grub.cfg ]]; then
+        echo "Now updating GRUB2 config"
+        sudo update-grub
+    fi
+fi
