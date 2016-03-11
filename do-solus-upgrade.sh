@@ -13,6 +13,11 @@
 oddPackages=(python-reportlab python-lxml)
 badProcesses=(evolve-sc solus-sc pisi eopkg)
 
+if [[ "${EUID}" -ne 0 ]]; then
+    echo "You must be root to run this script. Please re-run using sudo"
+    exit 1
+fi
+
 function do_die()
 {
     echo "Fatal: $*"
