@@ -28,6 +28,13 @@ function listRepos()
     echo /var/lib/eopkg/index/* | sed 's@/var/lib/eopkg/index/@@g'
 }
 
+function removePackage()
+{
+    local pkg="$*"
+
+    eopkg rm --ignore-safety --ignore-comar "$pkg"
+}
+
 function addRepo()
 {
     local repo="$1"
@@ -45,3 +52,10 @@ fi
 
 # Add the Shannon Solus repo
 addRepo Solus "https://packages.solus-project.com/shannon/eopkg-index.xml.xz"
+
+oddPackages=(python-reportlab python-lxml)
+
+for pkg in "${oddPackages[@]}"; do
+    # This is fine to fail.
+    removePackage "$pkg"
+done
